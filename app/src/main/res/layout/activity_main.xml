@@ -10,27 +10,28 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/myOptions">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phonesaber"
-            android:id="@+id/radioButton"
-            android:checked="false" />
+            android:id="@+id/phonesaber"
+            android:checked="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sonic Phonedriver"
-            android:id="@+id/radioButton2"
+            android:id="@+id/phonedriver"
             android:checked="false" />
 
         <RadioButton
             android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:text="PokePhone"
-            android:id="@+id/radioButton3"
+            android:id="@+id/pokephone"
             android:checked="false" />
     </RadioGroup>
 </RelativeLayout>
