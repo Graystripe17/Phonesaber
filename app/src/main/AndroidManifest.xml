@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cinnamint.com.phonesaber"
+    android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <service android:name=".UpdateService" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <receiver android:name="cinnamint.com.phonesaber.receiver"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="android.intent.action.ACTION_SCREEN_ON" />
+                    <action android:name="android.intent.action.ACTION_SCREEN_OFF" />
+                </intent-filter>
+            </receiver>
+            <receiver android:name=".autostart">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED" />
+                </intent-filter>
+            </receiver>
+
+        </activity>
+
+    </application>
+
+</manifest>
