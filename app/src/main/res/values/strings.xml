@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="title">Notification</string>
+    <string name="noticeMe">Notice</string>
+    <string name="message">Phonesaber Unlock</string>
 </resources>

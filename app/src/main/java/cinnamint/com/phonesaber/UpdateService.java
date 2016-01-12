@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
@@ -73,22 +74,6 @@ public class UpdateService extends Service {
                             break;
                     }
 
-                    Thread cleanUpThread = new Thread() {
-                        @Override
-                        public void run() {
-                            try {
-                                sleep(5000);
-                                mediaPlayerA.release();
-                                mediaPlayerA = null;
-                                Log.d(TAG, "CLEANUP A");
-                                Toast.makeText(context, "CLEANUP A", Toast.LENGTH_SHORT).show();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                    cleanUpThread.start();
-
                 }
             } else {
 
@@ -108,21 +93,7 @@ public class UpdateService extends Service {
                         break;
                 }
 
-                Thread cleanUpThread = new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            sleep(5000);
-                            mediaPlayerD.release();
-                            mediaPlayerD = null;
-                            Log.d(TAG, "CLEANUP D");
-                            Toast.makeText(context, "CLEANUP D", Toast.LENGTH_SHORT).show();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                cleanUpThread.start();
+
             }
         }
 
