@@ -22,6 +22,11 @@ import android.widget.ToggleButton;
 
 
 public class MainActivity extends Activity {
+    // TODO: Remove annoying toasts
+    // TODO: Add in control panel
+    // TODO: On/off switch
+    // TODO: Fix memory leaks
+    // TODO: Fix battery life
 
     public Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -118,9 +123,10 @@ public class MainActivity extends Activity {
                                 mediaPlayerM.start();
                                 Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
                                 break;
-                            case 1:
-                                break;
-                            case 2:
+                            case 4:
+                                mediaPlayerM = MediaPlayer.create(context, R.raw.hp_spell_cast_light);
+                                mediaPlayerM.start();
+                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -150,8 +156,20 @@ public class MainActivity extends Activity {
                     case R.id.pokephone:
                         setSFXoption(2);
                         break;
-                    default:
+                    case R.id.indianaphone:
+                        setSFXoption(3);
+                        break;
+                    case R.id.stupephone:
+                        setSFXoption(4);
+                        break;
+                    case R.id.masterphone:
+                        setSFXoption(5);
+                        break;
+                    case R.id.ironphone:
                         setSFXoption(6);
+                        break;
+                    default:
+                        setSFXoption(0);
                         break;
                 }
             }
@@ -207,14 +225,14 @@ public class MainActivity extends Activity {
     }
 
     public void startHighMemoryMode() {
-//        Toast.makeText(context, "startHighMemoryMode", Toast.LENGTH_LONG).show();
-//
-//        Intent notificationIntent = new Intent(this, UpdateService.class);
-//        startService(notificationIntent);
+        Toast.makeText(context, "startHighMemoryMode", Toast.LENGTH_LONG).show();
+
+        Intent notificationIntent = new Intent(this, UpdateService.class);
+        startService(notificationIntent);
     }
 
     public void stopHighMemoryMode() {
-        //stopService(new Intent(this, UpdateService.class));
+        stopService(new Intent(this, UpdateService.class));
     }
 
     public void startLowMemoryMode() {
