@@ -2,6 +2,8 @@ package cinnamint.com.phonesaber;
 
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -9,10 +11,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,12 +28,19 @@ public class UpdateService extends Service {
     public Context context;
     public MediaPlayer mediaPlayerA;
     public MediaPlayer mediaPlayerD;
+    int mNotificationId = 001;
+    NotificationCompat.Builder mBuilder;
+    NotificationManager mNotifyMgr;
+    Notification note8;
+    Notification note11;
+    private int count = 0;
 
     public static final String TAG = "WINSTON";
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -37,6 +48,54 @@ public class UpdateService extends Service {
 
         // start grabbing
         Log.d(TAG, "UpdateServiceCreated!");
+
+
+        /**
+         * HIGH POWER
+         * */
+        if (Build.VERSION.SDK_INT >= 16) {
+            Intent notificationIntent = new Intent(this, UpdateService.class);
+            PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+            mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            note11 = new Notification.Builder(context)
+                    .setContentTitle("ELVIS PRESLEY")
+                    .setContentText("BLUE SUEDE")
+                    .setSmallIcon(R.drawable.pepe)
+                    .setContentIntent(pendingIntent).build();
+            mNotifyMgr.notify(mNotificationId, note11);
+        } else if (Build.VERSION.SDK_INT >= 11
+                && Build.VERSION.SDK_INT <= 15) {
+            Intent notificationIntent = new Intent(this, UpdateService.class);
+            PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+            mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            note11 = new Notification.Builder(context)
+                    .setContentTitle("YEE HAW")
+                    .setContentText("MICHAEL JACKSON - SHAMONE")
+                    .setSmallIcon(R.drawable.pepe)
+                    .setContentIntent(pendingIntent).getNotification();
+            mNotifyMgr.notify(mNotificationId, note11);
+        } else {
+            note8 =
+                    new Notification(R.drawable.pepe, getString(R.string.noticeMe),
+                            System.currentTimeMillis());
+
+            PendingIntent i = PendingIntent.getActivity(this, 0,
+                    new Intent(this, UpdateService.class),
+                    0);
+            note8.setLatestEventInfo(getApplicationContext(), getString(R.string.title), getString(R.string.message), i);
+            note8.number = ++count;
+            note8.flags |= Notification.FLAG_AUTO_CANCEL;
+            note8.flags |= Notification.DEFAULT_SOUND;
+            note8.flags |= Notification.DEFAULT_VIBRATE;
+            note8.ledARGB = 0xff0000ff;
+            note8.flags |= Notification.FLAG_SHOW_LIGHTS;
+
+            // Now invoke the Notification Service
+            String notifService = Context.NOTIFICATION_SERVICE;
+            NotificationManager mgr =
+                    (NotificationManager) getSystemService(notifService);
+            mgr.notify(mNotificationId, note8);
+        }
     }
 
     @Override
@@ -59,9 +118,13 @@ public class UpdateService extends Service {
                     // This check ensures it will not play at night
 
                     // ACTIVATE
+                    // If mediaPlayerA is already playing, abort
+                    if(mediaPlayerA != null)
+                        if(mediaPlayerA.isPlaying())
+                            return START_REDELIVER_INTENT;
                     switch (resourceNumber) {
                         case 0:
-                            mediaPlayerA = MediaPlayer.create(context, R.raw.activate);
+                            mediaPlayerA = MediaPlayer.create(context, R.raw.activateloud);
                             mediaPlayerA.start();
                             break;
                         case 1:
@@ -72,15 +135,34 @@ public class UpdateService extends Service {
                             mediaPlayerA = MediaPlayer.create(context, R.raw.pokeball_out);
                             mediaPlayerA.start();
                             break;
+                        case 3:
+                            mediaPlayerA = MediaPlayer.create(context, R.raw.indiana_jones_open_whip);
+                            mediaPlayerA.start();
+                            break;
+                        case 4:
+                            mediaPlayerA = MediaPlayer.create(context, R.raw.hp_spell_cast_stupephone);
+                            mediaPlayerA.start();
+                            break;
+                        case 5:
+                            mediaPlayerA = MediaPlayer.create(context, R.raw.sword_unsheath);
+                            mediaPlayerA.start();
+                            break;
+                        case 6:
+                            mediaPlayerA = MediaPlayer.create(context, R.raw.iron_man_suit_up);
+                            mediaPlayerA.start();
+                            break;
                     }
 
                 }
             } else {
-
                 // DEACTIVATE
+                // Check if already playing
+                if(mediaPlayerD != null)
+                    if(mediaPlayerD.isPlaying())
+                        return START_REDELIVER_INTENT;
                 switch(resourceNumber) {
                     case 0:
-                        mediaPlayerD = MediaPlayer.create(context, R.raw.deactivate);
+                        mediaPlayerD = MediaPlayer.create(context, R.raw.deactivateloud);
                         mediaPlayerD.start();
                         break;
                     case 1:
@@ -91,9 +173,23 @@ public class UpdateService extends Service {
                         mediaPlayerD = MediaPlayer.create(context, R.raw.pokeball_in);
                         mediaPlayerD.start();
                         break;
+                    case 3:
+                        mediaPlayerD = MediaPlayer.create(context, R.raw.indiana_jones_withdraw_whip);
+                        mediaPlayerD.start();
+                        break;
+                    case 4:
+                        mediaPlayerD = MediaPlayer.create(context, R.raw.hp_spell_down);
+                        mediaPlayerD.start();
+                        break;
+                    case 5:
+                        mediaPlayerD = MediaPlayer.create(context, R.raw.sword_sheath);
+                        mediaPlayerD.start();
+                        break;
+                    case 6:
+                        mediaPlayerD = MediaPlayer.create(context, R.raw.iron_man_power_down);
+                        mediaPlayerD.start();
+                        break;
                 }
-
-
             }
         }
 
@@ -129,9 +225,9 @@ public class UpdateService extends Service {
 
     @Override
     public void onDestroy() {
-        mediaPlayerA.release();
+        if(mediaPlayerA != null) mediaPlayerA.release();
         mediaPlayerA = null;
-        mediaPlayerD.release();
+        if(mediaPlayerD != null) mediaPlayerD.release();
         mediaPlayerD = null;
         Toast.makeText(this, "Phonesaber Off", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onDestroy");
