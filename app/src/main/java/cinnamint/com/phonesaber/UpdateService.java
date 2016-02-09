@@ -12,13 +12,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by Gaga on 1/2/2016.
@@ -58,9 +55,9 @@ public class UpdateService extends Service {
             PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
             mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             note11 = new Notification.Builder(context)
-                    .setContentTitle("ELVIS PRESLEY")
-                    .setContentText("BLUE SUEDE")
-                    .setSmallIcon(R.drawable.pepe)
+                    .setContentTitle("Phonesaber")
+                    .setContentText("Phonesaber initiated!")
+                    .setSmallIcon(R.drawable.center_ps)
                     .setContentIntent(pendingIntent).build();
             mNotifyMgr.notify(mNotificationId, note11);
         } else if (Build.VERSION.SDK_INT >= 11
@@ -69,14 +66,14 @@ public class UpdateService extends Service {
             PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
             mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             note11 = new Notification.Builder(context)
-                    .setContentTitle("YEE HAW")
-                    .setContentText("MICHAEL JACKSON - SHAMONE")
-                    .setSmallIcon(R.drawable.pepe)
+                    .setContentTitle("Phonesaber")
+                    .setContentText("Phonesaber initiated!")
+                    .setSmallIcon(R.drawable.center_ps)
                     .setContentIntent(pendingIntent).getNotification();
             mNotifyMgr.notify(mNotificationId, note11);
         } else {
             note8 =
-                    new Notification(R.drawable.pepe, getString(R.string.noticeMe),
+                    new Notification(R.drawable.center_ps, getString(R.string.noticeMe),
                             System.currentTimeMillis());
 
             PendingIntent i = PendingIntent.getActivity(this, 0,
@@ -112,10 +109,16 @@ public class UpdateService extends Service {
             // Might give significant overhead
             // 21.9 MB RAM
             if (!screenOn) {
+                // DEBUG DATA
+                mediaPlayerA = MediaPlayer.create(context, R.raw.indiana_jones_withdraw_whip);
+                mediaPlayerA.start();
+
+
                 KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
                 if(myKM.inKeyguardRestrictedInputMode()) {
                     // It is locked
                     // This check ensures it will not play at night
+
 
                     // ACTIVATE
                     // If mediaPlayerA is already playing, abort
@@ -196,9 +199,9 @@ public class UpdateService extends Service {
         // Tells OS to recreate the service AND redeliver the same intent
         // START_STICKY: Restarts when available memory with null intent
         // START_REDELIVER_INTENT: Restarts when available memory continuing intent
-        Toast.makeText(context, "RADIONUMBER" + MainActivity.SFX_option, Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "RADIONUMBER" + MainActivity.SFX_option, Toast.LENGTH_LONG).show();
         Log.d(TAG, "onStartCommand");
-        return START_REDELIVER_INTENT;
+        return START_STICKY;
         // return super.onStartCommand(intent, flags, startId);
     }
 
@@ -214,7 +217,7 @@ public class UpdateService extends Service {
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmService.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 100, restartServicePI);
         // ^Try setRepeating
-        Toast.makeText(context, "onTaskRemoved", Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "onTaskRemoved", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onTaskRemoved");
     }
 
@@ -229,7 +232,7 @@ public class UpdateService extends Service {
         mediaPlayerA = null;
         if(mediaPlayerD != null) mediaPlayerD.release();
         mediaPlayerD = null;
-        Toast.makeText(this, "Phonesaber Off", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Phonesaber Off", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onDestroy");
         super.onDestroy();
     }

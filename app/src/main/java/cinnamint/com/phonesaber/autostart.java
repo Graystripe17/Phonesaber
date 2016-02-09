@@ -10,7 +10,7 @@ public class autostart extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent arg1) {
         Log.d("WINSTON", "New BOOT");
-        Toast.makeText(context, "RECEIVED", Toast.LENGTH_LONG);
+        // Toast.makeText(context, "RECEIVED", Toast.LENGTH_LONG).show();
         Intent intentStartService = new Intent(context, UpdateService.class);
         // No need for put extra, default screenOff = false
         context.startService(intentStartService);

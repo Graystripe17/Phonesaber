@@ -22,7 +22,6 @@ import android.widget.ToggleButton;
 
 
 public class MainActivity extends Activity {
-    // TODO: Remove annoying toasts
     // TODO: Add in control panel
     // TODO: On/off switch
     // TODO: Fix memory leaks
@@ -121,12 +120,12 @@ public class MainActivity extends Activity {
                             case 0:
                                 mediaPlayerM = MediaPlayer.create(context, R.raw.swing_slow);
                                 mediaPlayerM.start();
-                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
                                 break;
                             case 4:
                                 mediaPlayerM = MediaPlayer.create(context, R.raw.hp_spell_cast_light);
                                 mediaPlayerM.start();
-                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -225,7 +224,7 @@ public class MainActivity extends Activity {
     }
 
     public void startHighMemoryMode() {
-        Toast.makeText(context, "startHighMemoryMode", Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "startHighMemoryMode", Toast.LENGTH_LONG).show();
 
         Intent notificationIntent = new Intent(this, UpdateService.class);
         startService(notificationIntent);
@@ -236,7 +235,7 @@ public class MainActivity extends Activity {
     }
 
     public void startLowMemoryMode() {
-        Toast.makeText(context, "startLowMemoryMode", Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "startLowMemoryMode", Toast.LENGTH_LONG).show();
 //        // USING receiver.java
 //        // Receiver continues
         IntentFilter filterDesiredActions = new IntentFilter();

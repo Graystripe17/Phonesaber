@@ -18,7 +18,7 @@ public class receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(UpdateService.TAG, "onReceive");
-        Toast.makeText(context, "receiver", Toast.LENGTH_SHORT);
+//        Toast.makeText(context, "receiver", Toast.LENGTH_SHORT);
 
 
         String actionName = intent.getAction();

@@ -26,7 +26,7 @@ public class debug extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(getApplicationContext(), "RADIONUMBER" + MainActivity.SFX_option, Toast.LENGTH_LONG).show();
+        // Toast.makeText(getApplicationContext(), "RADIONUMBER" + MainActivity.SFX_option, Toast.LENGTH_LONG).show();
         Log.d("WINSTON", "oSC DEBUGGGGG");
         return START_REDELIVER_INTENT;
     }
