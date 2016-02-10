@@ -250,11 +250,12 @@ public class MainActivity extends Activity {
         Intent restartService = new Intent(context, UpdateService.class);
         restartService.setPackage(getPackageName());
         PendingIntent restartServicePI = PendingIntent.getService(context, 1, restartService, PendingIntent.FLAG_ONE_SHOT);
+        Log.d("WINSTON", "Restart Service Initiated");
 
         // Restart OFTEN
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmService.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 100, restartServicePI);
-        alarmService.cancel(restartServicePI);
+        // alarmService.cancel(restartServicePI);
     }
 
     public void stopLowMemoryMode() {

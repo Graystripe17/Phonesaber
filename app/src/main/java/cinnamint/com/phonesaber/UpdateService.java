@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Gaga on 1/2/2016.
@@ -97,6 +98,7 @@ public class UpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(context, "SOMETHING", Toast.LENGTH_LONG).show();
         context = getApplicationContext();
 
         SharedPreferences prefs = getSharedPreferences(MainActivity.MY_PREFS_NAME, MODE_PRIVATE);
@@ -109,10 +111,6 @@ public class UpdateService extends Service {
             // Might give significant overhead
             // 21.9 MB RAM
             if (!screenOn) {
-                // DEBUG DATA
-                mediaPlayerA = MediaPlayer.create(context, R.raw.indiana_jones_withdraw_whip);
-                mediaPlayerA.start();
-
 
                 KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
                 if(myKM.inKeyguardRestrictedInputMode()) {
@@ -122,9 +120,12 @@ public class UpdateService extends Service {
 
                     // ACTIVATE
                     // If mediaPlayerA is already playing, abort
-                    if(mediaPlayerA != null)
-                        if(mediaPlayerA.isPlaying())
-                            return START_REDELIVER_INTENT;
+                    if(mediaPlayerA != null) {
+                        if (mediaPlayerA.isPlaying()) {
+                            Log.d(TAG, "IsPlaying");
+                            return START_STICKY;
+                        }
+                    }
                     switch (resourceNumber) {
                         case 0:
                             mediaPlayerA = MediaPlayer.create(context, R.raw.activateloud);
@@ -160,9 +161,12 @@ public class UpdateService extends Service {
             } else {
                 // DEACTIVATE
                 // Check if already playing
-                if(mediaPlayerD != null)
-                    if(mediaPlayerD.isPlaying())
-                        return START_REDELIVER_INTENT;
+                if(mediaPlayerD != null) {
+                    if (mediaPlayerD.isPlaying()) {
+                        Log.d(TAG, "D sticky");
+                        return START_STICKY;
+                    }
+                }
                 switch(resourceNumber) {
                     case 0:
                         mediaPlayerD = MediaPlayer.create(context, R.raw.deactivateloud);
@@ -228,6 +232,8 @@ public class UpdateService extends Service {
 
     @Override
     public void onDestroy() {
+        Intent immortal = new Intent(context, receiver.class);
+        sendBroadcast(immortal);
         if(mediaPlayerA != null) mediaPlayerA.release();
         mediaPlayerA = null;
         if(mediaPlayerD != null) mediaPlayerD.release();
