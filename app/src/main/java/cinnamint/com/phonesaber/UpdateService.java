@@ -98,7 +98,6 @@ public class UpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(context, "SOMETHING", Toast.LENGTH_LONG).show();
         context = getApplicationContext();
 
         SharedPreferences prefs = getSharedPreferences(MainActivity.MY_PREFS_NAME, MODE_PRIVATE);
