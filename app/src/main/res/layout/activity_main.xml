@@ -19,44 +19,51 @@
             android:layout_height="wrap_content"
             android:text="Phonesaber"
             android:id="@+id/phonesaber"
-            android:checked="true" />
+            android:checked="true"
+            android:textSize="30dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sonic Phonedriver"
             android:id="@+id/phonedriver"
+            android:textSize="30dp"
             android:checked="false" />
 
         <RadioButton
-            android:layout_width="119dp"
+            android:layout_width="292dp"
             android:layout_height="wrap_content"
             android:text="PokePhone"
             android:id="@+id/pokephone"
+            android:textSize="30dp"
             android:checked="false" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Indiana Phone"
+            android:textSize="30dp"
             android:id="@+id/indianaphone" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stupephone"
+            android:textSize="30dp"
             android:id="@+id/stupephone" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Master Phone"
+            android:textSize="30dp"
             android:id="@+id/masterphone" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Iron Phone"
+            android:textSize="30dp"
             android:id="@+id/ironphone" />
 
     </RadioGroup>
