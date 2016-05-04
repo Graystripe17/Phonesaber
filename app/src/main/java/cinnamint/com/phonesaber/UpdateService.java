@@ -52,15 +52,24 @@ public class UpdateService extends Service {
          * HIGH POWER
          * */
         if (Build.VERSION.SDK_INT >= 16) {
-            Intent notificationIntent = new Intent(this, UpdateService.class);
-            PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-            mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            note11 = new Notification.Builder(context)
-                    .setContentTitle("Phonesaber")
-                    .setContentText("Phonesaber initiated!")
-                    .setSmallIcon(R.drawable.center_ps)
-                    .setContentIntent(pendingIntent).build();
-            mNotifyMgr.notify(mNotificationId, note11);
+
+//            Intent notificationIntent = new Intent(this, UpdateService.class);
+//            PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+//            mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//            note11 = new Notification.Builder(context)
+//                    .setContentTitle("Phonesaber")
+//                    .setContentText("Phonesaber initiated!")
+//                    .setSmallIcon(R.drawable.center_ps)
+//                    .setContentIntent(pendingIntent).build();
+            // Android developer guides
+            Notification notification = new Notification(R.drawable.center_ps, "Phonesaber", System.currentTimeMillis());
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            notification.setLatestEventInfo(this, "Phonesaber Initiated!", "Notification message", pendingIntent);
+            startForeground(mNotificationId, notification);
+            // Android developer guides
+
+            //startForeground(mNotificationId, note11);
         } else if (Build.VERSION.SDK_INT >= 11
                 && Build.VERSION.SDK_INT <= 15) {
             Intent notificationIntent = new Intent(this, UpdateService.class);

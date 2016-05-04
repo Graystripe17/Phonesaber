@@ -254,7 +254,7 @@ public class MainActivity extends Activity {
 
         // Restart OFTEN
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmService.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 100, restartServicePI);
+        alarmService.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, restartServicePI);
         // alarmService.cancel(restartServicePI);
     }
 
