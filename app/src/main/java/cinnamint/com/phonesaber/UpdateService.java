@@ -63,9 +63,9 @@ public class UpdateService extends Service {
 //                    .setContentIntent(pendingIntent).build();
             // Android developer guides
             Notification notification = new Notification(R.drawable.center_ps, "Phonesaber", System.currentTimeMillis());
-            Intent notificationIntent = new Intent(this, MainActivity.class);
+            Intent notificationIntent = new Intent(this, UpdateService.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-            notification.setLatestEventInfo(this, "Phonesaber Initiated!", "Notification message", pendingIntent);
+            notification.setLatestEventInfo(this, "Phonesaber", "Phonesaber Initiated!", pendingIntent);
             startForeground(mNotificationId, notification);
             // Android developer guides
 
