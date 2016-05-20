@@ -41,7 +41,10 @@ public class MainActivity extends Activity {
     5 Zelda
     6 Iron Man
     */
+
+    // UI Variables
     RadioGroup radioGroup;
+    ToggleButton toggle;
 
 
     @Override
@@ -52,6 +55,7 @@ public class MainActivity extends Activity {
         context = getApplicationContext();
 
         radioGroup = (RadioGroup) findViewById(R.id.myOptions);
+        toggle = (ToggleButton) findViewById(R.id.LowMemoryToggle);
 
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -63,14 +67,13 @@ public class MainActivity extends Activity {
 
             // On start, set the default phoneSaber settings to 0
             ((RadioButton) radioGroup.getChildAt(resourceNumber)).setChecked(true);
-        }
-        // Grab the most recent toggle option
-        if (prefs != null) {
+
+
+            // Grab the most recent toggle option
             // By default, LowMemoryMode is off
             LowMemoryMode = prefs.getBoolean("LowMemoryMode", false);
 
-            ToggleButton LowMemoryModeButton = (ToggleButton)findViewById(R.id.LowMemoryToggle);
-            LowMemoryModeButton.setChecked(LowMemoryMode);
+            toggle.setChecked(LowMemoryMode);
 
             if(LowMemoryMode) {
                 stopHighMemoryMode();
@@ -81,7 +84,6 @@ public class MainActivity extends Activity {
             }
         }
 
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.LowMemoryToggle);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -120,12 +122,10 @@ public class MainActivity extends Activity {
                             case 0:
                                 mediaPlayerM = MediaPlayer.create(context, R.raw.swing_slow);
                                 mediaPlayerM.start();
-//                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
                                 break;
                             case 4:
                                 mediaPlayerM = MediaPlayer.create(context, R.raw.hp_spell_cast_light);
                                 mediaPlayerM.start();
-//                                Toast.makeText(context, "Center Play", Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -135,12 +135,6 @@ public class MainActivity extends Activity {
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT);
         registerReceiver(UnlockReceiver, filter);
-
-
-
-
-
-
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -173,7 +167,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
     }
 
     public void setSFXoption(int option) {
@@ -185,21 +178,6 @@ public class MainActivity extends Activity {
         editor.putInt("resourceNumber", option);
         editor.commit();
     }
-
-
-//    @Override
-//    public void onPause() {
-//    }
-//
-//    @Override
-//    public void onResume() {
-//
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -224,8 +202,6 @@ public class MainActivity extends Activity {
     }
 
     public void startHighMemoryMode() {
-//        Toast.makeText(context, "startHighMemoryMode", Toast.LENGTH_LONG).show();
-
         Intent notificationIntent = new Intent(this, UpdateService.class);
         startService(notificationIntent);
     }
@@ -235,16 +211,13 @@ public class MainActivity extends Activity {
     }
 
     public void startLowMemoryMode() {
-//        Toast.makeText(context, "startLowMemoryMode", Toast.LENGTH_LONG).show();
-//        // USING receiver.java
-//        // Receiver continues
+        // USING receiver.java
+        // Receiver continues
         IntentFilter filterDesiredActions = new IntentFilter();
         filterDesiredActions.addAction(Intent.ACTION_SCREEN_ON);
         filterDesiredActions.addAction(Intent.ACTION_SCREEN_OFF);
         screenBR = new receiver();
         registerReceiver(screenBR, filterDesiredActions);
-
-
 
         // Alarm restarts service
         Intent restartService = new Intent(context, UpdateService.class);
