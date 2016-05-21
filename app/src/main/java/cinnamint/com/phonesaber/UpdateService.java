@@ -63,16 +63,18 @@ public class UpdateService extends Service {
 //                    .setContentIntent(pendingIntent).build();
             // Android developer guides
             Notification notification = new Notification(R.drawable.center_ps, "Phonesaber", System.currentTimeMillis());
-            Intent notificationIntent = new Intent(this, UpdateService.class);
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
             notification.setLatestEventInfo(this, "Phonesaber", "Phonesaber Initiated!", pendingIntent);
+            notification.flags |= Notification.FLAG_NO_CLEAR;
             startForeground(mNotificationId, notification);
             // Android developer guides
 
             //startForeground(mNotificationId, note11);
         } else if (Build.VERSION.SDK_INT >= 11
                 && Build.VERSION.SDK_INT <= 15) {
-            Intent notificationIntent = new Intent(this, UpdateService.class);
+            Intent notificationIntent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
             mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             note11 = new Notification.Builder(context)
@@ -82,12 +84,11 @@ public class UpdateService extends Service {
                     .setContentIntent(pendingIntent).getNotification();
             mNotifyMgr.notify(mNotificationId, note11);
         } else {
-            note8 =
-                    new Notification(R.drawable.center_ps, getString(R.string.noticeMe),
+            note8 = new Notification(R.drawable.center_ps, getString(R.string.noticeMe),
                             System.currentTimeMillis());
 
             PendingIntent i = PendingIntent.getActivity(this, 0,
-                    new Intent(this, UpdateService.class),
+                    new Intent(this, MainActivity.class),
                     0);
             note8.setLatestEventInfo(getApplicationContext(), getString(R.string.title), getString(R.string.message), i);
             note8.number = ++count;
@@ -206,7 +207,12 @@ public class UpdateService extends Service {
                         break;
                 }
             }
+        } else {
+            // Null intent
+            Toast.makeText(context, "Null Intent", Toast.LENGTH_LONG).show();
         }
+
+
 
         // Tells OS to recreate the service AND redeliver the same intent
         // START_STICKY: Restarts when available memory with null intent
@@ -246,8 +252,8 @@ public class UpdateService extends Service {
         mediaPlayerA = null;
         if(mediaPlayerD != null) mediaPlayerD.release();
         mediaPlayerD = null;
-//        Toast.makeText(this, "Phonesaber Off", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onDestroy");
+        Toast.makeText(context, "onDESTROY called DEBUG", Toast.LENGTH_LONG).show();
         super.onDestroy();
     }
 }

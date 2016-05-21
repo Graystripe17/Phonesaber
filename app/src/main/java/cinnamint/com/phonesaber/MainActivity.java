@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -30,7 +29,7 @@ public class MainActivity extends Activity {
     public Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     public static int SFX_option;
-    public static boolean LowMemoryMode;
+    public static boolean LOW_MEMORY_MODE;
     public BroadcastReceiver screenBR;
     /*
     0 Star Wars
@@ -70,12 +69,12 @@ public class MainActivity extends Activity {
 
 
             // Grab the most recent toggle option
-            // By default, LowMemoryMode is off
-            LowMemoryMode = prefs.getBoolean("LowMemoryMode", false);
+            // By default, LOW_MEMORY_MODE is off
+            LOW_MEMORY_MODE = prefs.getBoolean("LOW_MEMORY_MODE", false);
 
-            toggle.setChecked(LowMemoryMode);
+            toggle.setChecked(LOW_MEMORY_MODE);
 
-            if(LowMemoryMode) {
+            if(LOW_MEMORY_MODE) {
                 stopHighMemoryMode();
                 startLowMemoryMode();
             } else {
@@ -88,13 +87,13 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                    editor.putBoolean("LowMemoryMode", true);
+                    editor.putBoolean("LOW_MEMORY_MODE", true);
                     editor.commit();
                     stopHighMemoryMode();
                     startLowMemoryMode();
                 } else {
                     SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                    editor.putBoolean("LowMemoryMode", false);
+                    editor.putBoolean("LOW_MEMORY_MODE", false);
                     editor.commit();
                     startHighMemoryMode();
                     // Be wary of order
@@ -227,8 +226,10 @@ public class MainActivity extends Activity {
 
         // Restart OFTEN
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmService.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, restartServicePI);
-        // alarmService.cancel(restartServicePI);
+        // Elapsed realtime wakeup counts from boot tome
+        // RTC wakeup uses System.currentTimeMillis()
+        alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 10*60*1000, 24*60*60*1000, restartServicePI);
+        //alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, 24*60*60*1000, restartServicePI);
     }
 
     public void stopLowMemoryMode() {
