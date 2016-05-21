@@ -228,8 +228,8 @@ public class MainActivity extends Activity {
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Elapsed realtime wakeup counts from boot tome
         // RTC wakeup uses System.currentTimeMillis()
-        alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 10*60*1000, 24*60*60*1000, restartServicePI);
-        //alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, 24*60*60*1000, restartServicePI);
+        alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 10*60*1000, AlarmManager.INTERVAL_DAY, restartServicePI);
+        //alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000, 24*60*60*1000, restartServicePI);
     }
 
     public void stopLowMemoryMode() {
