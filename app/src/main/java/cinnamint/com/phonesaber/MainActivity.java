@@ -173,6 +173,7 @@ public class MainActivity extends Activity {
         // After the app is initiated for the first time, plant an Alarm
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
