@@ -31,6 +31,8 @@ public class MainActivity extends Activity {
     public static int SFX_option;
     public static boolean LOW_MEMORY_MODE;
     public BroadcastReceiver screenBR;
+    private AlarmManager alarmMgr;
+
     /*
     0 Star Wars
     1 Doctor Who
@@ -166,6 +168,12 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+
+        // After the app is initiated for the first time, plant an Alarm
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
     public void setSFXoption(int option) {
