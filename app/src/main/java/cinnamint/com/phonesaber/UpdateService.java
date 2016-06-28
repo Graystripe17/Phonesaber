@@ -172,11 +172,10 @@ public class UpdateService extends Service {
                         public void run() {
                             mediaPlayerA.release();
                             mediaPlayerA = null;
-                            handler.postDelayed(this, 2000);
                             Toast.makeText(getApplicationContext(), "Release mediaPlayerA", Toast.LENGTH_LONG).show();
                         }
                     };
-                    handler.postDelayed(r, 1000);
+                    handler.postDelayed(r, 2000);
 
                 }
             } else {
@@ -223,11 +222,10 @@ public class UpdateService extends Service {
                     public void run() {
                         mediaPlayerD.release();
                         mediaPlayerD = null;
-                        handler.postDelayed(this, 2000);
                         Toast.makeText(getApplicationContext(), "Release mediaPlayerD", Toast.LENGTH_LONG).show();
                     }
                 };
-                handler.postDelayed(r, 1000);
+                handler.postDelayed(r, 2000);
 
             }
         } else {
