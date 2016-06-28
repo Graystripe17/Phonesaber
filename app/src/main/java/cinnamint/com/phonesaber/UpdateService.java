@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
@@ -27,6 +28,7 @@ public class UpdateService extends Service {
     public MediaPlayer mediaPlayerA;
     public MediaPlayer mediaPlayerD;
     int mNotificationId = 001;
+    Handler handler;
     NotificationCompat.Builder mBuilder;
     NotificationManager mNotifyMgr;
     Notification note8;
@@ -165,6 +167,16 @@ public class UpdateService extends Service {
                             mediaPlayerA.start();
                             break;
                     }
+                    handler = new Handler();
+                    Runnable r = new Runnable() {
+                        public void run() {
+                            mediaPlayerA.release();
+                            mediaPlayerA = null;
+                            handler.postDelayed(this, 2000);
+                            Toast.makeText(getApplicationContext(), "Release mediaPlayerA", Toast.LENGTH_LONG).show();
+                        }
+                    };
+                    handler.postDelayed(r, 1000);
 
                 }
             } else {
@@ -206,6 +218,17 @@ public class UpdateService extends Service {
                         mediaPlayerD.start();
                         break;
                 }
+                handler = new Handler();
+                Runnable r = new Runnable() {
+                    public void run() {
+                        mediaPlayerD.release();
+                        mediaPlayerD = null;
+                        handler.postDelayed(this, 2000);
+                        Toast.makeText(getApplicationContext(), "Release mediaPlayerD", Toast.LENGTH_LONG).show();
+                    }
+                };
+                handler.postDelayed(r, 1000);
+
             }
         } else {
             // Null intent
@@ -219,6 +242,9 @@ public class UpdateService extends Service {
         // START_REDELIVER_INTENT: Restarts when available memory continuing intent
 //        Toast.makeText(context, "RADIONUMBER" + MainActivity.SFX_option, Toast.LENGTH_LONG).show();
         Log.d(TAG, "onStartCommand");
+
+
+
         return START_STICKY;
         // return super.onStartCommand(intent, flags, startId);
     }

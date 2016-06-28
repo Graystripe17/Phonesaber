@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_HOUR * 5, AlarmManager.INTERVAL_HOUR * 5, alarmIntent);
     }
 
     public void setSFXoption(int option) {
