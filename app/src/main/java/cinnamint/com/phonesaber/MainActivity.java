@@ -60,18 +60,12 @@ public class MainActivity extends Activity {
 
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        // Grab the most recent SFX_option
         if (prefs != null) {
-            // If no resourceNumber exists, default phonesaber
             int resourceNumber = prefs.getInt("resourceNumber", 0);
             SFX_option = resourceNumber;
 
-            // On start, set the default phoneSaber settings to 0
             ((RadioButton) radioGroup.getChildAt(resourceNumber)).setChecked(true);
 
-
-            // Grab the most recent toggle option
-            // By default, LOW_MEMORY_MODE is off
             LOW_MEMORY_MODE = prefs.getBoolean("LOW_MEMORY_MODE", false);
 
             toggle.setChecked(LOW_MEMORY_MODE);
@@ -84,6 +78,7 @@ public class MainActivity extends Activity {
                 startHighMemoryMode();
             }
         }
+
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -106,11 +101,10 @@ public class MainActivity extends Activity {
 
 
 
-/**
- * User Present
- */
-        // HANDLES ONLY USER_PRESENT
-        // Receiver killed onTaskRemoved
+        /**
+         * User Present BroadcastReceiver
+         * Only works occasionally
+         */
         BroadcastReceiver UnlockReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -123,10 +117,12 @@ public class MainActivity extends Activity {
                             case 0:
                                 mediaPlayerM = MediaPlayer.create(context, R.raw.swing_slow);
                                 mediaPlayerM.start();
+                                mediaPlayerM.release();
                                 break;
                             case 4:
                                 mediaPlayerM = MediaPlayer.create(context, R.raw.hp_spell_cast_light);
                                 mediaPlayerM.start();
+                                mediaPlayerM.release();
                                 break;
                         }
                     }
