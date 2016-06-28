@@ -238,16 +238,13 @@ public class UpdateService extends Service {
         // Tells OS to recreate the service AND redeliver the same intent
         // START_STICKY: Restarts when available memory with null intent
         // START_REDELIVER_INTENT: Restarts when available memory continuing intent
-//        Toast.makeText(context, "RADIONUMBER" + MainActivity.SFX_option, Toast.LENGTH_LONG).show();
         Log.d(TAG, "onStartCommand");
 
 
 
         return START_STICKY;
-        // return super.onStartCommand(intent, flags, startId);
     }
 
-    // Like seriously learn what this is
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         context = getApplicationContext();
@@ -258,8 +255,6 @@ public class UpdateService extends Service {
         // Restart once killed by android or user
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmService.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 100, restartServicePI);
-        // ^Try setRepeating
-//        Toast.makeText(context, "onTaskRemoved", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onTaskRemoved");
     }
 

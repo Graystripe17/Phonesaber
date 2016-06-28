@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -205,6 +206,12 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        Toast.makeText(context, "MainActivity destroyed", Toast.LENGTH_LONG);
+        super.onDestroy();
+    }
+
     public void startHighMemoryMode() {
         Intent notificationIntent = new Intent(this, UpdateService.class);
         startService(notificationIntent);
@@ -244,4 +251,5 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }
+
 }
