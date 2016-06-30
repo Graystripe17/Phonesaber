@@ -165,7 +165,7 @@ public class UpdateService extends Service {
                             // Toast.makeText(getApplicationContext(), "Release mediaPlayerA", Toast.LENGTH_LONG).show();
                         }
                     };
-                    handler.postDelayed(r, 2000);
+                    handler.postDelayed(r, 3000);
 
                 }
             } else {
@@ -215,7 +215,7 @@ public class UpdateService extends Service {
                         // Toast.makeText(getApplicationContext(), "Release mediaPlayerD", Toast.LENGTH_LONG).show();
                     }
                 };
-                handler.postDelayed(r, 2000);
+                handler.postDelayed(r, 3000);
 
             }
         } else {

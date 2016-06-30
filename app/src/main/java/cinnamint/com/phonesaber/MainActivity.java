@@ -24,8 +24,6 @@ import android.widget.ToggleButton;
 public class MainActivity extends Activity {
     // TODO: Add in control panel
     // TODO: On/off switch
-    // TODO: Fix memory leaks
-    // TODO: Fix battery life
 
     public Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
