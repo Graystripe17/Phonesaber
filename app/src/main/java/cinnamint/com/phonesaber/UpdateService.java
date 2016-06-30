@@ -54,15 +54,6 @@ public class UpdateService extends Service {
          * HIGH POWER
          * */
         if (Build.VERSION.SDK_INT >= 16) {
-
-//            Intent notificationIntent = new Intent(this, UpdateService.class);
-//            PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-//            mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//            note11 = new Notification.Builder(context)
-//                    .setContentTitle("Phonesaber")
-//                    .setContentText("Phonesaber initiated!")
-//                    .setSmallIcon(R.drawable.center_ps)
-//                    .setContentIntent(pendingIntent).build();
             // Android developer guides
             Notification notification = new Notification(R.drawable.center_ps, "Phonesaber", System.currentTimeMillis());
             Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -73,7 +64,6 @@ public class UpdateService extends Service {
             startForeground(mNotificationId, notification);
             // Android developer guides
 
-            //startForeground(mNotificationId, note11);
         } else if (Build.VERSION.SDK_INT >= 11
                 && Build.VERSION.SDK_INT <= 15) {
             Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -172,7 +162,7 @@ public class UpdateService extends Service {
                         public void run() {
                             mediaPlayerA.release();
                             mediaPlayerA = null;
-                            Toast.makeText(getApplicationContext(), "Release mediaPlayerA", Toast.LENGTH_LONG).show();
+                            // Toast.makeText(getApplicationContext(), "Release mediaPlayerA", Toast.LENGTH_LONG).show();
                         }
                     };
                     handler.postDelayed(r, 2000);
@@ -222,7 +212,7 @@ public class UpdateService extends Service {
                     public void run() {
                         mediaPlayerD.release();
                         mediaPlayerD = null;
-                        Toast.makeText(getApplicationContext(), "Release mediaPlayerD", Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getApplicationContext(), "Release mediaPlayerD", Toast.LENGTH_LONG).show();
                     }
                 };
                 handler.postDelayed(r, 2000);
@@ -230,7 +220,7 @@ public class UpdateService extends Service {
             }
         } else {
             // Null intent
-            Toast.makeText(context, "Null Intent", Toast.LENGTH_LONG).show();
+            // Toast.makeText(context, "Null Intent", Toast.LENGTH_LONG).show();
         }
 
 
@@ -272,7 +262,7 @@ public class UpdateService extends Service {
         if(mediaPlayerD != null) mediaPlayerD.release();
         mediaPlayerD = null;
         Log.d(TAG, "onDestroy");
-        Toast.makeText(context, "onDESTROY called DEBUG", Toast.LENGTH_LONG).show();
+        // Toast.makeText(context, "onDESTROY called DEBUG", Toast.LENGTH_LONG).show();
         super.onDestroy();
     }
 }

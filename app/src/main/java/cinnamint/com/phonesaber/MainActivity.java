@@ -208,7 +208,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        Toast.makeText(context, "MainActivity destroyed", Toast.LENGTH_LONG);
         super.onDestroy();
     }
 
