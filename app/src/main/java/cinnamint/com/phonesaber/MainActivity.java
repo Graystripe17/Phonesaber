@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_HOUR * 5, AlarmManager.INTERVAL_HOUR * 5, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_HOUR * 9, AlarmManager.INTERVAL_HOUR * 9, alarmIntent);
     }
 
     public void setSFXoption(int option) {
@@ -239,7 +239,7 @@ public class MainActivity extends Activity {
         AlarmManager alarmService = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Elapsed realtime wakeup counts from boot tome
         // RTC wakeup uses System.currentTimeMillis()
-        alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 10*60*1000, AlarmManager.INTERVAL_HOUR * 3, restartServicePI);
+        alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 10*60*1000, AlarmManager.INTERVAL_HOUR * 9, restartServicePI);
         //alarmService.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000, 24*60*60*1000, restartServicePI);
     }
 

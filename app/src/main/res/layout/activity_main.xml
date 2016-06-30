@@ -20,14 +20,14 @@
             android:text="Phonesaber"
             android:id="@+id/phonesaber"
             android:checked="true"
-            android:textSize="30dp" />
+            android:textSize="30sp" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sonic Phonedriver"
             android:id="@+id/phonedriver"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:checked="false" />
 
         <RadioButton
@@ -35,35 +35,35 @@
             android:layout_height="wrap_content"
             android:text="PokePhone"
             android:id="@+id/pokephone"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:checked="false" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Indiana Phone"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:id="@+id/indianaphone" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stupephone"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:id="@+id/stupephone" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Master Phone"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:id="@+id/masterphone" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Iron Phone"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:id="@+id/ironphone" />
 
     </RadioGroup>
