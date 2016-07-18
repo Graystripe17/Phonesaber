@@ -160,12 +160,13 @@ public class UpdateService extends Service {
                     handler = new Handler();
                     Runnable r = new Runnable() {
                         public void run() {
-                            mediaPlayerA.release();
-                            mediaPlayerA = null;
-                            // Toast.makeText(getApplicationContext(), "Release mediaPlayerA", Toast.LENGTH_LONG).show();
+                            if(mediaPlayerA != null) {
+                                mediaPlayerA.release();
+                                mediaPlayerA = null;
+                            }
                         }
                     };
-                    handler.postDelayed(r, 3000);
+                    handler.postDelayed(r, 6000);
 
                 }
             } else {
@@ -210,12 +211,13 @@ public class UpdateService extends Service {
                 handler = new Handler();
                 Runnable r = new Runnable() {
                     public void run() {
-                        mediaPlayerD.release();
-                        mediaPlayerD = null;
-                        // Toast.makeText(getApplicationContext(), "Release mediaPlayerD", Toast.LENGTH_LONG).show();
+                        if(mediaPlayerD != null) {
+                            mediaPlayerD.release();
+                            mediaPlayerD = null;
+                        }
                     }
                 };
-                handler.postDelayed(r, 3000);
+                handler.postDelayed(r, 6000);
 
             }
         } else {
