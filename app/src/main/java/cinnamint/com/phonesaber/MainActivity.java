@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+
 public class MainActivity extends Activity {
     // TODO: Add in control panel
     // TODO: On/off switch
@@ -59,12 +60,11 @@ public class MainActivity extends Activity {
 
         context = getApplicationContext();
 
-        radioGroup = (RadioGroup) findViewById(R.id.myOptions);
         toggle = (ToggleButton) findViewById(R.id.LowMemoryToggle);
         rumble = (Switch) findViewById(R.id.RumbleSwitch);
         running = (Switch) findViewById(R.id.RunningSwitch);
-
-
+        radioGroup = (RadioGroup) findViewById(R.id.myOptions);
+        radioGroup.setEnabled(false);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         if (prefs != null) {
@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 
             toggle.setChecked(LOW_MEMORY_MODE);
 
-            if(LOW_MEMORY_MODE) {
+            if (LOW_MEMORY_MODE) {
                 stopHighMemoryMode();
                 startLowMemoryMode();
             } else {
@@ -269,6 +269,12 @@ public class MainActivity extends Activity {
 
     public void turnOff() {
         stopService(new Intent(new Intent(this, UpdateService.class)));
+
+        rumble.setEnabled(false);
+
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radioGroup.getChildAt(i).setEnabled(false);
+        }
     }
 
     public void turnOn() {
@@ -279,6 +285,12 @@ public class MainActivity extends Activity {
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_HOUR * 9, AlarmManager.INTERVAL_HOUR * 9, alarmIntent);
+
+        rumble.setEnabled(true);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radioGroup.getChildAt(i).setEnabled(true);
+        }
+
     }
 
     public void setSFXoption(int option) {

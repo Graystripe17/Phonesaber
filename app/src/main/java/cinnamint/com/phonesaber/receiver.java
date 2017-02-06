@@ -10,7 +10,7 @@ import android.widget.Toast;
 /**
  * Created by Gaga on 1/2/2016.
  */
-public class receiver extends BroadcastReceiver {
+public class Receiver extends BroadcastReceiver {
 
     private boolean screenOff = false;
 
@@ -28,6 +28,7 @@ public class receiver extends BroadcastReceiver {
             } else if (actionName.equals(Intent.ACTION_SCREEN_ON)) {
                 screenOff = false;
             }
+            // If not already running
             Intent i = new Intent(context, UpdateService.class);
             i.putExtra("screen_state", screenOff);
             context.startService(i);

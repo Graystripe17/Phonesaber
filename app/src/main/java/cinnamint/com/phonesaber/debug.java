@@ -17,7 +17,7 @@ public class debug extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(new receiver(), filter);
+        registerReceiver(new Receiver(), filter);
 
         // start grabbing
         Log.d("WINSTON", "DEBUG SERVICE CREATED");
