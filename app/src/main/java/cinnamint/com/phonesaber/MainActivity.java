@@ -1,5 +1,6 @@
 package cinnamint.com.phonesaber;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.SystemClock;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -29,6 +32,7 @@ public class MainActivity extends Activity {
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     public static int SFX_option;
     public static boolean LOW_MEMORY_MODE;
+    public static boolean RUMBLE;
     public BroadcastReceiver screenBR;
     private AlarmManager alarmMgr;
 
@@ -45,7 +49,8 @@ public class MainActivity extends Activity {
     // UI Variables
     RadioGroup radioGroup;
     ToggleButton toggle;
-
+    Switch rumble;
+    Switch running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,9 @@ public class MainActivity extends Activity {
 
         radioGroup = (RadioGroup) findViewById(R.id.myOptions);
         toggle = (ToggleButton) findViewById(R.id.LowMemoryToggle);
+        rumble = (Switch) findViewById(R.id.RumbleSwitch);
+        running = (Switch) findViewById(R.id.RunningSwitch);
+
 
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -76,21 +84,25 @@ public class MainActivity extends Activity {
                 stopLowMemoryMode();
                 startHighMemoryMode();
             }
+
+            RUMBLE = prefs.getBoolean("RUMBLE", false);
+            if (Build.VERSION.SDK_INT >= 14) {
+                rumble.setChecked(RUMBLE);
+            }
         }
 
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putBoolean("LOW_MEMORY_MODE", isChecked);
+                editor.commit();
+
                 if (isChecked) {
-                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                    editor.putBoolean("LOW_MEMORY_MODE", true);
-                    editor.commit();
                     stopHighMemoryMode();
                     startLowMemoryMode();
                 } else {
-                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                    editor.putBoolean("LOW_MEMORY_MODE", false);
-                    editor.commit();
                     startHighMemoryMode();
                     // Be wary of order
                     stopLowMemoryMode();
@@ -98,6 +110,26 @@ public class MainActivity extends Activity {
             }
         });
 
+        rumble.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                RUMBLE = b;
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putBoolean("RUMBLE", RUMBLE);
+                editor.commit();
+            }
+        });
+
+        running.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    turnOn();
+                } else {
+                    turnOff();
+                }
+            }
+        });
 
 
         /**
@@ -164,23 +196,9 @@ public class MainActivity extends Activity {
             }
         });
 
-
-        // After the app is initiated for the first time, plant an Alarm
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_HOUR * 9, AlarmManager.INTERVAL_HOUR * 9, alarmIntent);
+        turnOn();
     }
 
-    public void setSFXoption(int option) {
-        Log.d(UpdateService.TAG, "setSFX to " + option);
-        SFX_option = option;
-
-        // update SharedPreferences
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putInt("resourceNumber", option);
-        editor.commit();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -215,16 +233,16 @@ public class MainActivity extends Activity {
     }
 
     public void stopHighMemoryMode() {
-        stopService(new Intent(this, UpdateService.class));
+        turnOff();
     }
 
     public void startLowMemoryMode() {
-        // USING receiver.java
+        // USING Receiver.java
         // Receiver continues
         IntentFilter filterDesiredActions = new IntentFilter();
         filterDesiredActions.addAction(Intent.ACTION_SCREEN_ON);
         filterDesiredActions.addAction(Intent.ACTION_SCREEN_OFF);
-        screenBR = new receiver();
+        screenBR = new Receiver();
         registerReceiver(screenBR, filterDesiredActions);
 
         // Alarm restarts service
@@ -247,6 +265,30 @@ public class MainActivity extends Activity {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+    }
+
+    public void turnOff() {
+        stopService(new Intent(new Intent(this, UpdateService.class)));
+    }
+
+    public void turnOn() {
+        startHighMemoryMode();
+
+        // After the app is initiated for the first time, plant an Alarm
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, AlarmManager.INTERVAL_HOUR * 9, AlarmManager.INTERVAL_HOUR * 9, alarmIntent);
+    }
+
+    public void setSFXoption(int option) {
+        Log.d(UpdateService.TAG, "setSFX to " + option);
+        SFX_option = option;
+
+        // update SharedPreferences
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putInt("resourceNumber", option);
+        editor.commit();
     }
 
 }

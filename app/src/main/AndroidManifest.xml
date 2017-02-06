@@ -3,6 +3,7 @@
     package="cinnamint.com.phonesaber"
     android:installLocation="internalOnly"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,7 @@
 
         </activity>
 
-        <receiver android:name="cinnamint.com.phonesaber.receiver"
+        <receiver android:name="cinnamint.com.phonesaber.Receiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SCREEN_ON" />

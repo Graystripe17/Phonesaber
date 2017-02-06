@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ public class UpdateService extends Service {
     public Context context;
     public MediaPlayer mediaPlayerA;
     public MediaPlayer mediaPlayerD;
+    public Vibrator vibrate;
+    public Receiver mReceiver;
     int mNotificationId = 001;
     Handler handler;
     NotificationCompat.Builder mBuilder;
@@ -44,11 +47,13 @@ public class UpdateService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(new receiver(), filter);
+        mReceiver = new Receiver();
+        registerReceiver(mReceiver, filter);
 
         // start grabbing
         Log.d(TAG, "UpdateServiceCreated!");
 
+        vibrate = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         /**
          * HIGH POWER
@@ -107,21 +112,21 @@ public class UpdateService extends Service {
         Log.d(TAG, "oSC SharedPrefs Res#" + resourceNumber);
 
 
-        if(intent != null) {
+        if (intent != null) {
             boolean screenOn = intent.getBooleanExtra("screen_state", false);
             // Might give significant overhead
             // 21.9 MB RAM
             if (!screenOn) {
 
                 KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-                if(myKM.inKeyguardRestrictedInputMode()) {
+                if (myKM.inKeyguardRestrictedInputMode()) {
                     // It is locked
                     // This check ensures it will not play at night
 
 
                     // ACTIVATE
                     // If mediaPlayerA is already playing, abort
-                    if(mediaPlayerA != null) {
+                    if (mediaPlayerA != null) {
                         if (mediaPlayerA.isPlaying()) {
                             Log.d(TAG, "IsPlaying");
                             return START_STICKY;
@@ -168,17 +173,43 @@ public class UpdateService extends Service {
                     };
                     handler.postDelayed(r, 6000);
 
+                    if (MainActivity.RUMBLE) {
+                        switch (resourceNumber) {
+                            case 0:
+                                vibrate.vibrate(new long[]{200, 400}, -1);
+                                break;
+                            case 1:
+                                vibrate.vibrate(new long[]{400, 300}, -1);
+                                break;
+                            case 2:
+                                vibrate.vibrate(new long[]{400, 800}, -1);
+                                break;
+                            case 3:
+                                vibrate.vibrate(new long[]{400, 600}, -1);
+                                break;
+                            case 4:
+                                vibrate.vibrate(new long[]{200, 1200}, -1);
+                                break;
+                            case 5:
+                                vibrate.vibrate(new long[]{200, 100}, -1);
+                                break;
+                            case 6:
+                                vibrate.vibrate(new long[]{200, 500, 600, 400, 300, 300}, -1);
+                                break;
+                        }
+                    }
+
                 }
             } else {
                 // DEACTIVATE
                 // Check if already playing
-                if(mediaPlayerD != null) {
+                if (mediaPlayerD != null) {
                     if (mediaPlayerD.isPlaying()) {
                         Log.d(TAG, "D sticky");
                         return START_STICKY;
                     }
                 }
-                switch(resourceNumber) {
+                switch (resourceNumber) {
                     case 0:
                         mediaPlayerD = MediaPlayer.create(context, R.raw.deactivateloud);
                         mediaPlayerD.start();
@@ -219,6 +250,33 @@ public class UpdateService extends Service {
                 };
                 handler.postDelayed(r, 6000);
 
+
+                if (MainActivity.RUMBLE) {
+                    switch (resourceNumber) {
+                        case 0:
+                            vibrate.vibrate(new long[]{1000, 30}, -1);
+                            break;
+                        case 1:
+                            vibrate.vibrate(new long[]{200, 400}, -1);
+                            break;
+                        case 2:
+                            vibrate.vibrate(new long[]{400, 100}, -1);
+                            break;
+                        case 3:
+                            vibrate.vibrate(new long[]{400, 100}, -1);
+                            break;
+                        case 4:
+                            vibrate.vibrate(new long[]{400, 1000}, -1);
+                            break;
+                        case 5:
+                            vibrate.vibrate(new long[]{250, 30}, -1);
+                            break;
+                        case 6:
+                            vibrate.vibrate(new long[]{250, 20}, -1);
+                            break;
+                    }
+                }
+
             }
         } else {
             // Null intent
@@ -239,6 +297,9 @@ public class UpdateService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
+        unregisterReceiver(mReceiver);
+
+
         context = getApplicationContext();
         Intent restartService = new Intent(context, this.getClass());
         restartService.setPackage(getPackageName());
@@ -257,7 +318,7 @@ public class UpdateService extends Service {
 
     @Override
     public void onDestroy() {
-        Intent immortal = new Intent(context, receiver.class);
+        Intent immortal = new Intent(context, Receiver.class);
         sendBroadcast(immortal);
         if(mediaPlayerA != null) mediaPlayerA.release();
         mediaPlayerA = null;
