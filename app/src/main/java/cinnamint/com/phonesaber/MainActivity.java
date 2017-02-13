@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         context = getApplicationContext();
 
         toggle = (ToggleButton) findViewById(R.id.LowMemoryToggle);
@@ -268,7 +269,8 @@ public class MainActivity extends Activity {
     }
 
     public void turnOff() {
-        stopService(new Intent(new Intent(this, UpdateService.class)));
+        // Handle leaks but lose stickiness
+        // stopService(new Intent(new Intent(this, UpdateService.class)));
 
         rumble.setEnabled(false);
 
