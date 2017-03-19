@@ -262,7 +262,8 @@ public class MainActivity extends Activity {
 
     public void stopLowMemoryMode() {
         try {
-            unregisterReceiver(screenBR);
+            // Removed in Greedy
+            // unregisterReceiver(screenBR);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

@@ -297,7 +297,8 @@ public class UpdateService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        unregisterReceiver(mReceiver);
+        // Removed in Greedy mode
+        // unregisterReceiver(mReceiver);
 
 
         context = getApplicationContext();
