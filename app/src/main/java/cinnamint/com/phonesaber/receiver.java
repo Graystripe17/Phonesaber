@@ -20,6 +20,10 @@ public class Receiver extends BroadcastReceiver {
         Log.d(UpdateService.TAG, "onReceive");
 //        Toast.makeText(context, "receiver", Toast.LENGTH_SHORT);
 
+        if (!MainActivity.ACTIVATED) {
+            return;
+        }
+
 
         String actionName = intent.getAction();
         if(actionName != null) {

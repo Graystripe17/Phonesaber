@@ -43,6 +43,7 @@ public class UpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
         context = getApplicationContext();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
@@ -110,6 +111,11 @@ public class UpdateService extends Service {
         SharedPreferences prefs = getSharedPreferences(MainActivity.MY_PREFS_NAME, MODE_PRIVATE);
         int resourceNumber = prefs.getInt("resourceNumber", 0);
         Log.d(TAG, "oSC SharedPrefs Res#" + resourceNumber);
+
+        if (!MainActivity.ACTIVATED) {
+            stopService(new Intent(context, UpdateService.class));
+            return START_NOT_STICKY;
+        }
 
 
         if (intent != null) {

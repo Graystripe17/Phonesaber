@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
     public static int SFX_option;
     public static boolean LOW_MEMORY_MODE;
     public static boolean RUMBLE;
+    public static boolean ACTIVATED = true;
     public BroadcastReceiver screenBR;
     private AlarmManager alarmMgr;
 
@@ -126,8 +127,10 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     turnOn();
+                    ACTIVATED = true;
                 } else {
                     turnOff();
+                    ACTIVATED = false;
                 }
             }
         });
